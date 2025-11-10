@@ -1,0 +1,22 @@
+services:
+  dcat:
+    build: ./
+    restart: 'no'
+    labels:
+      - 'logging=true'
+    environment:
+      - NODE_ENV=development
+      - NO_BABEL_NODE=true
+      - CLEANUP_DUPLICATES_CRON=0 * * * * # Every hour
+      - CLEANUP_DUPLICATES_AT_START=true
+    ports:
+      - '8083:80'
+      - '9229:9229'
+    volumes:
+      - ./config:/config
+      - ./:/app
+    networks:
+      - debug
+networks:
+  debug:
+    external: true
