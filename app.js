@@ -1,12 +1,9 @@
 // see https://github.com/mu-semtech/mu-javascript-template for more info
 
-import init from "./app/init";
-import { convert } from "./app/reader";
+import { rdfSerializer } from "rdf-serialize";
+import { queryDatabase } from "./app/data";
 import { app, errorHandler } from "mu";
 
-const targetGraph = "https://example.org/graphs/dcat";
-const filePath = "./config/dcat.ttl";
-const baseIRI = "https://example.org/";
 const acceptedFormats = [
   "application/ld+json",
   "application/n-quads",
@@ -16,18 +13,17 @@ const acceptedFormats = [
   "text/turtle",
 ];
 
-app.get("/*", function (req, res, next) {
+app.get("/*", async function (req, res, next) {
   try {
     const contentType = req.accepts(acceptedFormats);
-    if (contentType === undefined) {
-      res.status(406).send(`unrecognized format ${req.headers.accept}`);
-    } else {
+    if (contentType) {
       res.header("Content-Type", contentType);
-      const stream = convert(filePath, {
-        parseOptions: { contentType: "text/turtle", baseIRI },
-        serializeOptions: { contentType },
+      const stream = rdfSerializer.serialize(await queryDatabase(), {
+        contentType,
       });
       stream.pipe(res);
+    } else {
+      res.status(406).send(`unrecognized format ${req.headers.accept}`);
     }
   } catch (e) {
     next(e);
@@ -35,5 +31,3 @@ app.get("/*", function (req, res, next) {
 });
 
 app.use(errorHandler);
-
-await init(filePath, baseIRI, targetGraph);
