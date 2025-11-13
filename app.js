@@ -1,8 +1,10 @@
 // see https://github.com/mu-semtech/mu-javascript-template for more info
 
+import init from "./app/init";
 import { convert } from "./app/reader";
 import { app, errorHandler } from "mu";
 
+const targetGraph = "https://example.org/graphs/dcat";
 const filePath = "./config/dcat.ttl";
 const baseIRI = "https://example.org/";
 const acceptedFormats = [
@@ -33,3 +35,5 @@ app.get("/*", function (req, res, next) {
 });
 
 app.use(errorHandler);
+
+await init(filePath, baseIRI, targetGraph);
