@@ -1,8 +1,8 @@
-// see https://github.com/mu-semtech/mu-javascript-template for more info
-
 import { rdfSerializer } from "rdf-serialize";
-import { queryDatabase } from "./app/data";
 import { app, errorHandler } from "mu";
+import { Request, Response, NextFunction } from "express";
+
+import { queryDatabase } from "./app/data";
 
 const acceptedFormats = [
   "application/ld+json",
@@ -13,7 +13,7 @@ const acceptedFormats = [
   "text/turtle",
 ];
 
-app.get("/*", async function (req, res, next) {
+app.get("/*", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const contentType = req.accepts(acceptedFormats);
     if (contentType) {
