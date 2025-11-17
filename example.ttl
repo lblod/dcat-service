@@ -1,21 +1,21 @@
-PREFIX adms: <http://www.w3.org/ns/adms#>
-PREFIX cms: <http://mu.semte.ch/vocabulary/cms/>
-PREFIX dcat: <http://www.w3.org/ns/dcat#>
-PREFIX dcatap: <http://data.europa.eu/r5r/>
-PREFIX dct: <http://purl.org/dc/terms/>
-PREFIX eurovoc: <http://eurovoc.europa.eu/>
-PREFIX ex: <http://example.org/>
-PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
-PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-PREFIX ldes: <https://w3id.org/ldes#>
-PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
-PREFIX odrl: <https://www.w3.org/TR/odrl-vocab/>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX prov: <http://www.w3.org/ns/prov#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix cms: <http://mu.semte.ch/vocabulary/cms/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix eurovoc: <http://eurovoc.europa.eu/> .
+@prefix ex: <http://example.org/> .
+@prefix ext: <http://mu.semte.ch/vocabularies/ext/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ldes: <https://w3id.org/ldes#> .
+@prefix mu: <http://mu.semte.ch/vocabularies/core/> .
+@prefix odrl: <https://www.w3.org/TR/odrl-vocab/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 # Lokaal mandatenbeheer
 
@@ -30,7 +30,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     dcat:theme eurovoc:68 ;
     dct:spatial <http://publications.europa.eu/resource/authority/atu/BEL_CGG_VLA> ;
     dct:accessRights <http://publications.europa.eu/resource/authority/access-right/PUBLIC> ;
-    dcat:landingPage <https://mandatenbeheer.lokaalbestuur.vlaanderen.be/>.
+    dcat:landingPage <https://mandatenbeheer.lokaalbestuur.vlaanderen.be/> .
 
 <http://data.lblod.info/id/distributions/f14e40a9-029b-49f2-bbfd-8084c9d76899>
     a dcat:Distribution ;

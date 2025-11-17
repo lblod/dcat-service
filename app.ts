@@ -13,7 +13,7 @@ const acceptedFormats = [
   "text/turtle",
 ];
 
-app.get("/*", async function (req: Request, res: Response, next: NextFunction) {
+app.get("/catalogs", async function (req: Request, res: Response, next: NextFunction) {
   try {
     const contentType = req.accepts(acceptedFormats);
     if (contentType) {

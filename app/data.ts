@@ -1,7 +1,5 @@
-import jsstream, { Readable } from "stream";
-import fs from "fs";
+import { Readable } from "stream";
 import { SparqlJsonParser } from "sparqljson-parse";
-import { rdfParser, ParseOptions } from "rdf-parse";
 import { query } from "mu";
 import * as RDF from "@rdfjs/types";
 import dataFactory from "@rdfjs/data-model";
@@ -50,9 +48,7 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
       }
       ?subject ?predicate ?object.
     }
-  `,
-    null
-  );
+  `);
 
   // Since we just get a single response, we parse everything into an array of quads and make a stream out of it after the fact.
   const parser = new SparqlJsonParser();
@@ -67,15 +63,4 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
       )
     );
   return new ArrayQuadStream(quads);
-}
-
-export function parseFile(
-  file: string,
-  opts: ParseOptions
-): jsstream.Readable & RDF.Stream<RDF.Quad> {
-  if (!fs.existsSync(file)) {
-    throw Error(`File does not exist: ${file}`);
-  }
-  const fileStream = fs.createReadStream(file);
-  return rdfParser.parse(fileStream, opts);
 }
