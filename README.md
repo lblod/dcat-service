@@ -27,7 +27,7 @@ end
 
 ### `GET /catalogs`
 
-This endpoint passes all information on `dcat:Catalog`s, `dcat:Dataset`s and `dcat:Distribution`s from the triple store to the user. The specific file format can be specified via the `Accept` HTTP header, with the following formats currently supported:
+This endpoint passes all information on `dcat:Catalog`s, `dcat:Dataset`s and `dcat:Distribution`s from the triple store to the user. The specific file format can be specified via the `Accept` HTTP header, with the default being `application/ld+json`. The following formats are currently supported:
 
 - `application/ld+json`
 - `application/n-quads`
