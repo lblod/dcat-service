@@ -1,11 +1,20 @@
 {
   "name": "dcat-service",
-  "version": "1.0.0",
-  "main": "app.js",
+  "version": "0.0.1",
+  "main": "app.ts",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
   "license": "MIT",
-  "description": ""
+  "description": "This service provides an endpoint that presents DCAT catalogues, datasets and distributions in a specified Linked Data format.",
+  "dependencies": {
+    "@rdfjs/data-model": "^2.1.1",
+    "rdf-parse": "^4.0.0",
+    "rdf-serialize": "^4.0.1",
+    "sparqljson-parse": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.25"
+  }
 }
