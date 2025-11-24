@@ -13,21 +13,24 @@ const acceptedFormats = [
   "text/turtle",
 ];
 
-app.get("/catalogs", async function (req: Request, res: Response, next: NextFunction) {
-  try {
-    const contentType = req.accepts(acceptedFormats);
-    if (contentType) {
-      res.header("Content-Type", contentType);
-      const stream = rdfSerializer.serialize(await queryDatabase(), {
-        contentType,
-      });
-      stream.pipe(res);
-    } else {
-      res.status(406).send(`unrecognized format ${req.headers.accept}`);
+app.get(
+  "/catalogs",
+  async function (req: Request, res: Response, next: NextFunction) {
+    try {
+      const contentType = req.accepts(acceptedFormats);
+      if (contentType) {
+        res.header("Content-Type", contentType);
+        const stream = rdfSerializer.serialize(await queryDatabase(), {
+          contentType,
+        });
+        stream.pipe(res);
+      } else {
+        res.status(406).send(`unrecognized format ${req.headers.accept}`);
+      }
+    } catch (e) {
+      next(e);
     }
-  } catch (e) {
-    next(e);
-  }
-});
+  },
+);
 
 app.use(errorHandler);

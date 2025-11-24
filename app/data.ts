@@ -59,7 +59,7 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
       }
       ?subject ?predicate ?object.
     }
-  `
+  `,
   );
 
   // Since we just get a single response, we parse everything into an array of quads and make a stream out of it after the fact.
@@ -71,8 +71,8 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
         binding["s"] as RDF.Quad_Subject,
         binding["p"] as RDF.Quad_Predicate,
         binding["o"] as RDF.Quad_Object,
-        dataFactory.defaultGraph()
-      )
+        dataFactory.defaultGraph(),
+      ),
     );
   return new ArrayQuadStream(quads);
 }
