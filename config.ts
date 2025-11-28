@@ -14,3 +14,10 @@ export function dspPath(affix: String) {
     affix.replace(/^\/*/, "") // Remove any prefix "/"
   );
 }
+
+export const PREFIXES = `
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+`;
