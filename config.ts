@@ -15,6 +15,13 @@ PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
 PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
 `;
 
+export enum STATUS_CODE {
+  OK = 200,
+  INTERNAL_SERVER_ERROR = 500,
+  BAD_REQUEST = 400,
+  NOT_ACCEPTABLE = 406,
+}
+
 // Utilities
 export function dspPath(affix: String) {
   return (

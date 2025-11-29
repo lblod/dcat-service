@@ -2,7 +2,7 @@ import { rdfSerializer } from "rdf-serialize";
 import { app, errorHandler } from "mu";
 import express, { Request, Response, NextFunction } from "express";
 import { queryDatabase } from "./app/data";
-import { dspPath } from "./config";
+import { dspPath, STATUS_CODE } from "./config";
 import { catalogRouter } from "./dsp/routes/catalog";
 
 const acceptedFormats = [
@@ -28,7 +28,9 @@ app.get(
         });
         stream.pipe(res);
       } else {
-        res.status(406).send(`unrecognized format ${req.headers.accept}`);
+        res
+          .status(STATUS_CODE.NOT_ACCEPTABLE)
+          .send(`unrecognized format ${req.headers.accept}`);
       }
     } catch (e) {
       next(e);
