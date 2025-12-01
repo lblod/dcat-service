@@ -1,8 +1,9 @@
 import { rdfSerializer } from "rdf-serialize";
 import { app, errorHandler } from "mu";
-import { Request, Response, NextFunction } from "express";
-
+import express, { Request, Response, NextFunction } from "express";
 import { queryDatabase } from "./app/data";
+import { dspPath } from "./config";
+import { catalogRouter } from "./dsp/routes/catalog";
 
 const acceptedFormats = [
   "application/ld+json",
@@ -12,6 +13,8 @@ const acceptedFormats = [
   "text/n3",
   "text/turtle",
 ];
+
+app.use(express.json());
 
 app.get(
   "/catalogs",
@@ -32,5 +35,9 @@ app.get(
     }
   },
 );
+
+// DSP
+//// Catalog Protocol
+app.use(dspPath("catalog"), catalogRouter);
 
 app.use(errorHandler);
