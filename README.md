@@ -13,9 +13,11 @@ To add the service to a mu-semtech stack, add the following snippet to its `dock
 ```yaml
 dcat:
   image: lblod/dcat-service:0.0.1
+  environment:
+    BASE_URL: "https://the-base-url-of-the-app"
 ```
 
-Add the following routes to the dispatcher's configuration:
+Add the following routes to the dispatcher's configuration. Note if you have set the environment value `DSP_PATH_PREFIX` to a different value than its default one, be sure to change the corresponding parts in the DSP rule accordingly.
 
 ```elixir
 match "/dcat/*path" do
@@ -26,6 +28,16 @@ match "/dsp/2025-1/catalog/*path", %{ accept: [:json], layer: :api_services} do
   Proxy.forward conn, path, "http://dcat/dsp/2025-1/catalog/"
 end
 ```
+
+## Configuration
+
+### Environment variables
+
+| Name            | Description                                                                                  | Required | Default value                                   |
+|-----------------|----------------------------------------------------------------------------------------------|----------|-------------------------------------------------|
+| BASE_URL        | The base URL of the application.                                                             | Yes      | None                                            |
+| DSP_PATH_PREFIX | A prefix that is added to all DSP routes between the base URL and the DSP protocol endpoint. | No       | `/dsp/2025-1/`                                  |
+| DSP_CONTEXT     | The JSON-LD context used for message bodies.                                                  | No       | "https://w3id.org/dspace/2025/1/context.jsonld" |
 
 ## API
 

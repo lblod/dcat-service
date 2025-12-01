@@ -1,11 +1,21 @@
-export const DSP_CONTEXT = "https://w3id.org/dspace/2025/1/context.jsonld";
+// Configuration
+if (!process.env.BASE_URL) throw "Expected BASE_URL to be provided.";
+export const BASE_URL = process.env.BASE_URL.replace(/\/+$/, "");
 
-// TODO: Should be set via environment variable
-export const BASE_URL = "https://ds.decide.lblod.info/";
+export const DSP_PATH_PREFIX = process.env.DSP_PATH_PREFIX || "/dsp/2025-1/";
 
-// TODO: maybe this should be configurable, environment variable?
-export const DSP_PATH_PREFIX = "/dsp/2025-1/";
+export const DSP_CONTEXT =
+  process.env.DSP_CONTEXT || "https://w3id.org/dspace/2025/1/context.jsonld";
 
+// Constants
+export const PREFIXES = `
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+`;
+
+// Utilities
 export function dspPath(affix: String) {
   return (
     "/" + // Ensure path starts with a "/"
@@ -14,10 +24,3 @@ export function dspPath(affix: String) {
     affix.replace(/^\/*/, "") // Remove any prefix "/"
   );
 }
-
-export const PREFIXES = `
-PREFIX dcat: <http://www.w3.org/ns/dcat#>
-PREFIX dct: <http://purl.org/dc/terms/>
-PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
-PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
-`;
