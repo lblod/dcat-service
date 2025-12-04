@@ -1,8 +1,8 @@
-import { Readable } from "stream";
-import { SparqlJsonParser } from "sparqljson-parse";
-import { query } from "mu";
-import * as RDF from "@rdfjs/types";
-import dataFactory from "@rdfjs/data-model";
+import { Readable } from 'stream';
+import { SparqlJsonParser } from 'sparqljson-parse';
+import { query } from 'mu';
+import * as RDF from '@rdfjs/types';
+import dataFactory from '@rdfjs/data-model';
 
 class ArrayQuadStream extends Readable implements RDF.Stream<RDF.Quad> {
   private data: RDF.Quad[];
@@ -59,7 +59,7 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
       }
       ?subject ?predicate ?object.
     }
-  `
+  `,
   );
 
   // Since we just get a single response, we parse everything into an array of quads and make a stream out of it after the fact.
@@ -68,11 +68,11 @@ export async function queryDatabase(): Promise<RDF.Stream<RDF.Quad>> {
     .parseJsonResults(sparqlJsonResponse)
     .map((binding) =>
       dataFactory.quad(
-        binding["s"] as RDF.Quad_Subject,
-        binding["p"] as RDF.Quad_Predicate,
-        binding["o"] as RDF.Quad_Object,
-        dataFactory.defaultGraph()
-      )
+        binding['s'] as RDF.Quad_Subject,
+        binding['p'] as RDF.Quad_Predicate,
+        binding['o'] as RDF.Quad_Object,
+        dataFactory.defaultGraph(),
+      ),
     );
   return new ArrayQuadStream(quads);
 }
