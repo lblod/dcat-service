@@ -5,6 +5,9 @@ import { retrieveDataset, retrieveRootCatalog } from "../controllers/catalog";
 import { catalogToJson, datasetToJson } from "../data-to-json";
 import { CatalogError } from "../util/catalog-error";
 
+// This router implements the API for DSP's Catalog Protocol
+// Specification: <https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1/#catalog-protocol>
+
 const catalogRouter = Router();
 
 // Catalog request message
