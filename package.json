@@ -10,6 +10,10 @@
   },
   "license": "MIT",
   "description": "This service provides an endpoint that presents DCAT catalogues, datasets and distributions in a specified Linked Data format.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lblod/dcat-service.git"
+  },
   "dependencies": {
     "@rdfjs/data-model": "^2.1.1",
     "rdf-parse": "^4.0.0",
