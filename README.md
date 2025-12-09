@@ -70,7 +70,10 @@ The following endpoints implement the [Dataspace Protocol DSP](https://eclipse-d
 Request the meta information on the provider's root catalog, where a root catalog is one that is **not** contained in any other catalog. If a root catalog is found the response will be an [ACK - Catalog](https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1/#ack-catalog).
 
 > [!warning]
-> This services assumes there to be a **single** root catalog in the app. If there is more than one root catalog, whichever is returned by the triplestore is used in the response. In that case the content of different responses may differ.
+> This service assumes there to be a **single** root catalog in the app. If there is more than one root catalog, whichever is returned by the triplestore is used in the response. In that case the content of different responses may differ.
+
+> [!warning]
+> Filters are currently **not** support by this service. If an incoming request specifies a filter, the service will reply with a `400 Bad Request` response.
 
 ##### Response
 - `200 OK` if a root catalog was found, the response body contains the meta information for the catalog
