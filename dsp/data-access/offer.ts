@@ -1,6 +1,7 @@
 import { query, sparqlEscapeUri } from "mu";
 import { PREFIXES } from "../../config";
 import { Offer, Rule } from "../types";
+import { DataError } from "../util/data-error";
 
 /**
  * Get the Offers linked to a given dataset. This queries the backend for all
@@ -100,6 +101,11 @@ async function createAndAddRule(offer: Offer, binding) {
     case "http://www.w3.org/ns/odrl/2/Permission":
       offer.permission?.push(rule);
       break;
+    default:
+      throw new DataError(
+        "Encountered an unsupported type of Rule in an Offer: " +
+          binding.type.value,
+      );
   }
 }
 

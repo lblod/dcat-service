@@ -4,6 +4,7 @@ import { DSP_CONTEXT, STATUS_CODE } from "../../config";
 import { retrieveDataset, retrieveRootCatalog } from "../controllers/catalog";
 import { catalogToJson, datasetToJson } from "../data-to-json";
 import { CatalogError } from "../util/catalog-error";
+import { DataError } from "../util/data-error";
 
 // This router implements the API for DSP's Catalog Protocol
 // Specification: <https://eclipse-dataspace-protocol-base.github.io/DataspaceProtocol/2025-1/#catalog-protocol>
@@ -68,6 +69,12 @@ catalogRouter.use(async function (
   res: Response,
   next: NextFunction,
 ) {
+  if (error instanceof DataError) {
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .set("Content-Type", "application/json")
+      .json(new CatalogError(error.message).toJson());
+  }
   if (error instanceof CatalogError) {
     res
       .status(error.status ?? STATUS_CODE.INTERNAL_SERVER_ERROR)
