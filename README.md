@@ -36,8 +36,9 @@ end
 | Name            | Description                                                                                  | Required | Default value                                   |
 |-----------------|----------------------------------------------------------------------------------------------|----------|-------------------------------------------------|
 | BASE_URL        | The base URL of the application.                                                             | Yes      | None                                            |
+| DSP_SERVICE_ID  | The unique ID with which this service is known in the dataspace.                             | Yes      | None                                            |
 | DSP_PATH_PREFIX | A prefix that is added to all DSP routes between the base URL and the DSP protocol endpoint. | No       | `/dsp/2025-1/`                                  |
-| DSP_CONTEXT     | The JSON-LD context used for message bodies.                                                  | No       | "https://w3id.org/dspace/2025/1/context.jsonld" |
+| DSP_CONTEXT     | The JSON-LD context used for message bodies.                                                 | No       | "https://w3id.org/dspace/2025/1/context.jsonld" |
 
 ## API
 
