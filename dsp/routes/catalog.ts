@@ -42,8 +42,7 @@ catalogRouter.get(
     try {
       ensureValidContentType(req.get("content-type"));
 
-      // TODO: Full URI should be in request
-      const uri = "http://data.lblod.info/id/datasets/" + req.params.id;
+      const uri = decodeURIComponent(req.params.id);
 
       const dataset = await retrieveDataset(uri);
       if (dataset) {
@@ -69,6 +68,12 @@ catalogRouter.use(async function (
   res: Response,
   next: NextFunction,
 ) {
+  if (error instanceof URIError) {
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .set("Content-Type", "application/json")
+      .json(new CatalogError(error.message).toJson());
+  }
   if (error instanceof DataError) {
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
