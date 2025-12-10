@@ -5,6 +5,10 @@ export const BASE_URL = process.env.BASE_URL.replace(/\/+$/, "");
 if (!process.env.DSP_SERVICE_ID) throw "Expected DSP_SERVICE_ID to be provided";
 export const DSP_SERVICE_ID = process.env.DSP_SERVICE_ID;
 
+if (!process.env.DSP_PARTICIPANT_ID)
+  throw "Expected DSP_PARTICIPANT_ID to be provided";
+export const DSP_PARTICIPANT_ID = process.env.DSP_PARTICIPANT_ID;
+
 export const DSP_PATH_PREFIX = process.env.DSP_PATH_PREFIX || "/dsp/2025-1/";
 
 export const DSP_CONTEXT =

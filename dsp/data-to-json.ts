@@ -1,4 +1,4 @@
-import { DSP_CONTEXT } from "../config";
+import { DSP_CONTEXT, DSP_PARTICIPANT_ID } from "../config";
 import {
   Catalog,
   Constraint,
@@ -30,7 +30,7 @@ export function catalogToJson(catalog: Catalog, isAck = false) {
   json["@type"] = "Catalog";
 
   if (isAck) {
-    json["participantId"] = "TODO"; // TODO: what should this be?
+    json["participantId"] = DSP_PARTICIPANT_ID;
   }
 
   if (catalog.catalog?.length) {
