@@ -1,19 +1,19 @@
 services:
   dcat:
     build: ./
-    restart: 'no'
+    restart: "no"
     labels:
-      - 'logging=true'
+      - "logging=true"
     environment:
       - NODE_ENV=development
       - NO_BABEL_NODE=true
-      - CLEANUP_DUPLICATES_CRON=0 * * * * # Every hour
-      - CLEANUP_DUPLICATES_AT_START=true
+      - BASE_URL=https://ds.decide.lblod.info/
+      - DSP_SERVICE_ID=urn:example:6e2e3fcb-8a66-4d81-a4cd-ba2eea954396
+      - DSP_PARTICIPANT_ID=urn:example:DecideDataProvider
     ports:
-      - '8083:80'
-      - '9229:9229'
+      - "8083:80"
+      - "9229:9229"
     volumes:
-      - ./config:/config
       - ./:/app
     networks:
       - debug
