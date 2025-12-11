@@ -57,7 +57,7 @@ export async function getContainedCatalogs(catalogUri: string) {
 
 function toDspCatalog(binding) {
   const catalog: Catalog = {
-    id: binding.catalog.value,
+    uri: binding.catalog.value,
   };
 
   return catalog;

@@ -37,7 +37,7 @@ async function distributionsForResource(uri: string, type: string) {
 
 function toDspDistribution(distribution: IBindings) {
   const distr: Distribution = {
-    id: distribution.distribution.value,
+    uri: distribution.distribution.value,
     format: distribution.format.value,
     accessService: getDataService(),
   };

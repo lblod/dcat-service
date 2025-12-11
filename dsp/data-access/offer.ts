@@ -43,7 +43,7 @@ export async function offersForDataset(datasetUri: string) {
 
 function toDspOffer(binding) {
   const offer: Offer = {
-    id: binding.uri.value,
+    uri: binding.uri.value,
     obligation: [],
     permission: [],
     prohibition: [],
@@ -58,7 +58,7 @@ async function addRulesToOffer(offer: Offer) {
 
   SELECT DISTINCT ?rule ?type ?action
   WHERE {
-    ${sparqlEscapeUri(offer.id)} a odrl:Offer ;
+    ${sparqlEscapeUri(offer.uri)} a odrl:Offer ;
            ?rulePredicate ?rule .
 
     VALUES ?rulePredicate {
@@ -83,7 +83,7 @@ async function addRulesToOffer(offer: Offer) {
 
 async function createAndAddRule(offer: Offer, binding) {
   const rule: Rule = {
-    id: binding.rule.value,
+    uri: binding.rule.value,
     action: binding.action.value,
     constraint: [],
   };
@@ -115,7 +115,7 @@ async function addConstraintsToRule(rule: Rule) {
 
   SELECT DISTINCT ?constraint ?leftOperand ?operator ?rightOperand
   WHERE {
-    ${sparqlEscapeUri(rule.id)} odrl:constraint ?constraint .
+    ${sparqlEscapeUri(rule.uri)} odrl:constraint ?constraint .
     ?constraint odrl:leftOperand ?leftOperand ;
                 odrl:operator ?operator ;
                 odrl:rightOperand ?rightOperand .

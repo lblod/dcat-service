@@ -6,8 +6,14 @@
 // fixed per type. These fixed values are filled it when translating an instance
 // to JSON.
 
+// NOTE (11/12/2025): The following types use `uri` as property instead of
+// `[@]id` as typically used in DSP's type definitions. The `uri` property will
+// be assigned to the `@id` field when converting to json-ld messages. We opted
+// for this name to avoid confusion of the property with the `mu:uuid` id we
+// typically use internally in semantic.works apps.
+
 export type Agreement = {
-  id: string;
+  uri: string;
   assignee: string;
   assigner: string;
   target: string;
@@ -29,7 +35,7 @@ export type Constraint = {
 };
 
 export type Catalog = {
-  id: string;
+  uri: string;
   catalog?: Catalog[];
   dataset?: Dataset[];
   distribution?: Distribution[];
@@ -43,20 +49,20 @@ export type DataAddress = {
 };
 
 export type Dataset = {
-  id: string;
+  uri: string;
   distribution: Distribution[]; // TODO: Enforce there is at least one?
   hasPolicy: Offer[]; // TODO: Enforce there is at least one?
 };
 
 export type Distribution = {
-  id: string; // NOTE (28/11/2025): Not in the type's table but used in messages
+  uri: string; // NOTE (28/11/2025): Not in the type's table but used in messages
   accessService: DataService;
   format: string;
   hasPolicy?: Offer[];
 };
 
 export type DataService = {
-  id: string;
+  uri: string;
   endpointUrl?: string;
   servesDataset?: Dataset[];
 };
@@ -69,7 +75,7 @@ export type EndpointProperty = {
 };
 
 export type MessageOffer = {
-  id: string;
+  uri: string;
   profile?: string;
   obligation?: Duty[];
   permission?: Permission[];
@@ -78,7 +84,7 @@ export type MessageOffer = {
 };
 
 export type Offer = {
-  id: string;
+  uri: string;
   profile?: string;
   obligation?: Duty[];
   permission?: Permission[];
@@ -90,7 +96,7 @@ export type Permission = Rule;
 export type Prohibition = Rule;
 
 export type Rule = {
-  id: string;
+  uri: string;
   action: string;
   constraint?: Constraint[];
 };

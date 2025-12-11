@@ -41,22 +41,22 @@ export async function retrieveRootCatalog() {
  *   undefined if no catalog resource was found for its id.
  */
 async function populateCatalog(catalog: Catalog) {
-  const catalogExists = await isExistingCatalog(catalog.id);
+  const catalogExists = await isExistingCatalog(catalog.uri);
 
   if (catalogExists) {
     // TODO: Should take precautions this does not go into an infinite loop due
     // to cyclic links in the data
-    const containedCatalogs = await getContainedCatalogs(catalog.id);
+    const containedCatalogs = await getContainedCatalogs(catalog.uri);
     catalog.catalog = await Promise.all(
       containedCatalogs.map(async (c) => await populateCatalog(c)),
     );
 
-    const datasetUris = await datasetsInCatalog(catalog.id);
+    const datasetUris = await datasetsInCatalog(catalog.uri);
     catalog.dataset = await Promise.all(
       datasetUris.map(async (uri) => await retrieveDataset(uri)),
     );
 
-    catalog.distribution = await distributionsForCatalog(catalog.id);
+    catalog.distribution = await distributionsForCatalog(catalog.uri);
 
     catalog.service = [getDataService()];
 
@@ -72,7 +72,7 @@ export async function retrieveDataset(uri) {
     const offers = await offersForDataset(uri);
 
     const dataset: Dataset = {
-      id: uri,
+      uri: uri,
       distribution: distributions,
       hasPolicy: offers,
     };

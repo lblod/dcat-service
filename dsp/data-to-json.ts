@@ -26,7 +26,7 @@ export function catalogToJson(catalog: Catalog, isAck = false) {
     json["@context"] = [DSP_CONTEXT];
   }
 
-  json["@id"] = catalog.id;
+  json["@id"] = catalog.uri;
   json["@type"] = "Catalog";
 
   if (isAck) {
@@ -73,7 +73,7 @@ export function datasetToJson(dataset: Dataset, isAck = false) {
     json["@context"] = [DSP_CONTEXT];
   }
 
-  json["@id"] = dataset.id;
+  json["@id"] = dataset.uri;
   json["@type"] = "Dataset";
   json["hasPolicy"] = dataset.hasPolicy.map((offer) => offerToJson(offer));
   json["distribution"] = dataset.distribution.map((distr) =>
@@ -86,7 +86,7 @@ export function datasetToJson(dataset: Dataset, isAck = false) {
 function distributionToJson(distribution: Distribution) {
   return {
     "@type": "Distribution",
-    "@id": distribution.id,
+    "@id": distribution.uri,
     format: distribution.format,
     accessService: dataServiceToJson(distribution.accessService),
   };
@@ -94,7 +94,7 @@ function distributionToJson(distribution: Distribution) {
 
 function dataServiceToJson(dataService: DataService) {
   return {
-    "@id": dataService.id,
+    "@id": dataService.uri,
     "@type": "DataService",
     endpointUrl: dataService.endpointUrl,
     // TODO: add servesDataset (optional) Dataset[]
@@ -104,7 +104,7 @@ function dataServiceToJson(dataService: DataService) {
 }
 
 function offerToJson(offer: Offer) {
-  let json = { "@id": offer.id, "@type": "Offer" };
+  let json = { "@id": offer.uri, "@type": "Offer" };
 
   if (offer.obligation?.length) {
     json["obligation"] = offer.obligation?.map((duty) => ruleToJson(duty));

@@ -37,12 +37,12 @@ catalogRouter.post(
 
 // Dataset request message
 catalogRouter.get(
-  "/datasets/:id",
+  "/datasets/:uri",
   async function (req: Request, res: Response, next: NextFunction) {
     try {
       ensureValidContentType(req.get("content-type"));
 
-      const uri = decodeURIComponent(req.params.id);
+      const uri = decodeURIComponent(req.params.uri);
 
       const dataset = await retrieveDataset(uri);
       if (dataset) {
