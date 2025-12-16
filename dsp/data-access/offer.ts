@@ -20,13 +20,8 @@ export async function offersForDataset(datasetUri: string) {
 
   SELECT DISTINCT ?uri
   WHERE {
-    {
-      ?uri a odrl:Offer ;
-           odrl:target ${sparqlEscapeUri(datasetUri)} .
-    } UNION {
-      ${sparqlEscapeUri(datasetUri)} odrl:hasPolicy ?uri .
-      ?uri a odrl:Offer .
-    }
+    ?uri a odrl:Offer ;
+         (odrl:target|^odrl:hasPolicy) ${sparqlEscapeUri(datasetUri)}.
   }
   `;
 
