@@ -55,7 +55,7 @@ async function getBasicDCATInfo(): Promise<IBindings[]> {
       } UNION {
         ?subject a dcat:DataService.
       } UNION {
-        ?subject (odrl:permission | odrl:prohibition) / odrl:target ?dataset .
+        ?subject (odrl:permission | odrl:prohibition | odrl:obligation) / odrl:target ?dataset .
         ?dataset a dcat:Dataset .
       } UNION {
         ?subject odrl:target ?dataset .
@@ -101,10 +101,23 @@ async function getAdditionalODRLData(): Promise<IBindings[]> {
     CONSTRUCT {
       ?subject ?predicate ?object.
     } WHERE {
-      ?rule odrl:target ?dataset .
-      ?dataset a dcat:Dataset .
-      ?rule (odrl:assigner | odrl:assignee) / dct:relation? / ^schema:about? ?subject .        
-      ?subject ?predicate ?object.
+      {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty ) / dct:relation? / ^schema:about? ?subject .        
+        ?subject ?predicate ?object.
+
+      } UNION {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty) / odrl:action? / odrl:refinement? / odrl:rightOperand? ?subject .
+        ?subject ?predicate ?object.
+      } UNION {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty) / ((odrl:constraint? / odrl:rightOperand?) | odrl:consequence? | odrl:remedy?) ?subject .        
+        ?subject ?predicate ?object.
+      }
     }
   `,
   );
