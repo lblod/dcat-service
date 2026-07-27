@@ -1,8 +1,9 @@
 import { Readable } from 'stream';
 import { IBindings, SparqlJsonParser } from 'sparqljson-parse';
-import { query } from 'mu';
+import { query, sparqlEscapeString } from 'mu';
 import * as RDF from '@rdfjs/types';
 import dataFactory from '@rdfjs/data-model';
+import { rdfSerializer } from 'rdf-serialize';
 
 class ArrayQuadStream extends Readable implements RDF.Stream<RDF.Quad> {
   private data: RDF.Quad[];
@@ -136,4 +137,67 @@ function constructBindingsToQuadStream(bindings: IBindings[]) {
       );
     }),
   );
+}
+
+export async function fetchDatasetOdrlPolicyTriples(
+  datasetId: string,
+): Promise<string> {
+  const queryString = `
+    PREFIX dct: <http://purl.org/dc/terms/>
+    PREFIX dcat: <http://www.w3.org/ns/dcat#>
+    PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+    PREFIX schema: <https://schema.org/>
+    PREFIX mu: <http://mu.semte.ch/vocabularies/core/>
+
+    CONSTRUCT {
+      ?subject ?predicate ?object .
+      ?rule ?rp ?ro .
+      ?s ?p ?o .
+    }
+    WHERE {
+      ?dataset mu:uuid ${sparqlEscapeString(datasetId)} .
+      {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty ) / dct:relation? / ^schema:about? ?subject .        
+        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?s ?p ?o .
+        ?subject ?predicate ?object.
+        ?rule ?rp ?ro .
+      } UNION {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty) / odrl:action? / odrl:refinement? / odrl:rightOperand? ?subject .
+        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?s ?p ?o .
+        ?subject ?predicate ?object.
+        ?rule ?rp ?ro .
+      } UNION {
+        ?rule odrl:target ?dataset .
+        ?dataset a dcat:Dataset .
+        ?rule (odrl:assigner | odrl:assignee | odrl:duty) / ((odrl:constraint? / odrl:rightOperand?) | odrl:consequence? | odrl:remedy?) ?subject .        
+        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?s ?p ?o .
+        ?subject ?predicate ?object.
+        ?rule ?rp ?ro .
+      }
+    }
+  `;
+
+  const sparqlResult = await query(queryString);
+  const parser = new SparqlJsonParser();
+  const bindings = parser.parseJsonResults(sparqlResult);
+  const quadStream = constructBindingsToQuadStream(bindings);
+
+  const textStream = rdfSerializer.serialize(quadStream, {
+    contentType: 'text/turtle',
+  });
+  return new Promise<string>((resolve, reject) => {
+    const chunks: string[] = [];
+    textStream.on('data', (chunk: Buffer | string) =>
+      chunks.push(chunk.toString()),
+    );
+    textStream.on('end', () => resolve(chunks.join('')));
+    textStream.on('error', reject);
+  });
 }
