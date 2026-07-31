@@ -1,6 +1,6 @@
 {
   "name": "dcat-service",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "main": "app.ts",
   "type": "module",
   "scripts": {
