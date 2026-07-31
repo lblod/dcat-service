@@ -152,7 +152,7 @@ export async function fetchDatasetOdrlPolicyTriples(
     CONSTRUCT {
       ?subject ?predicate ?object .
       ?rule ?rp ?ro .
-      ?s ?p ?o .
+      ?policy ?pPolicy ?oPolicy .
     }
     WHERE {
       ?dataset mu:uuid ${sparqlEscapeString(datasetId)} .
@@ -160,24 +160,24 @@ export async function fetchDatasetOdrlPolicyTriples(
         ?rule odrl:target ?dataset .
         ?dataset a dcat:Dataset .
         ?rule (odrl:assigner | odrl:assignee | odrl:duty ) / dct:relation? / ^schema:about? ?subject .        
-        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
-        ?s ?p ?o .
+        ?policy (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?policy ?pPolicy ?oPolicy .
         ?subject ?predicate ?object.
         ?rule ?rp ?ro .
       } UNION {
         ?rule odrl:target ?dataset .
         ?dataset a dcat:Dataset .
         ?rule (odrl:assigner | odrl:assignee | odrl:duty) / odrl:action? / odrl:refinement? / odrl:rightOperand? ?subject .
-        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
-        ?s ?p ?o .
+        ?policy (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?policy ?pPolicy ?oPolicy .
         ?subject ?predicate ?object.
         ?rule ?rp ?ro .
       } UNION {
         ?rule odrl:target ?dataset .
         ?dataset a dcat:Dataset .
         ?rule (odrl:assigner | odrl:assignee | odrl:duty) / ((odrl:constraint? / odrl:rightOperand?) | odrl:consequence? | odrl:remedy?) ?subject .        
-        ?s (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
-        ?s ?p ?o .
+        ?policy (odrl:permission | odrl:prohibition | odrl:obligation) ?rule .
+        ?policy ?pPolicy ?oPolicy .
         ?subject ?predicate ?object.
         ?rule ?rp ?ro .
       }
